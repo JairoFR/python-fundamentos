@@ -1,31 +1,63 @@
+import cuentas_bancarias as cb
+
 class Usuario:
 
     def __init__(self, nombre, email):
         self.nombre = nombre
         self.email = email
-        self.balance_cuenta = 0
+        self.cuenta = {
+                        "cuenta_corriente" : cb.CuentaBancaria(0.02, 1000),
+                        "cuenta_ahorro" : cb.CuentaBancaria(0.02, 2000) 
+                        }
 
-    def __str__(self):
+    def __repr__(self):
         return f"{self.nombre} - {self.email}"
 
-    def hacer_deposito(self, deposito): #toma un arguemento deposito, que es el deposito a realizar
-        self.balance_cuenta += deposito # el balance_cuenta aumenta de acuerdo al deposito recibido
+    def hacer_deposito(self, deposito, account): #toma un argumento deposito, y una account que puede ser "cuenta_corriente" o "cuenta_ahorro"
+        self.cuenta[account].deposito(deposito)# se llama a los metodos de instancias de la clase CuentaBancaria
+        print("\n-----Deposito realizado con exito------\n")
         return self
+        
 
-    def hacer_retiro(self, retiro): #toma un argumento
-        self.balance_cuenta -= retiro
-        return self
+    def hacer_retiro(self, retiro, account): 
+        if Usuario.tiene_cash(self.cuenta[account].balance, retiro): # valida con el metodo estatico si tiene cash para retirar dinero.  self.cuenta[account].balance -> accede al atributo balance de CuentaBancaria
+            self.cuenta[account].retiro(retiro) # llama a los metodos de CuentaBancaria y retira cash de la cuenta seleccionada
+        else:
+            print("\n-----Fondos insuficientes para realizar retiro-----\n")
+    
+    
+    def transferir_dinero(self, monto, usuario):
+    
+        if Usuario.tiene_cash(self.cuenta["cuenta_corriente"].balance, monto):
+
+            self.cuenta["cuenta_corriente"].retiro(monto)
+            usuario.cuenta["cuenta_corriente"].deposito(monto)
+        else:
+            print("\n-----Saldo insuficiente-----")
+        self.mostrar_balance()
     
     def mostrar_balance(self):
-        print(f"Balance: {self.nombre}\n{self.balance_cuenta}")
+        print(f"\nMostrar_balance: {self.nombre}")
+        print("------------------") 
+        for k,v in self.cuenta.items(): #itera sobre el diccionario de self.cuentas para mostrar el balance de la cuenta
+            print(f"{k}: {v}")
+        print("------------------")
+        
     
+    def interes(self, account):
+        self.cuenta[account].generar_interes()
+        return self
+    
+    
+    @staticmethod
+    def tiene_cash(balance, monto): # metodo estatico que valida si el retiro o transferencia a realizar tiene fondos suficientes
+        if (balance - monto < 0):
+            return False
+        else:
+            return True
 
 jairo = Usuario("jairo", "jfr.elec@gmail.com")
 karla = Usuario("Karla", "karla@gmail.com")
 lucas = Usuario("Lucas", "lucas@gmail.com")
 
-jairo.hacer_deposito(100).hacer_deposito(200).hacer_deposito(500).hacer_retiro(400).mostrar_balance()
-karla.hacer_deposito(100).hacer_deposito(200).hacer_retiro(100).hacer_retiro(100).mostrar_balance()
-lucas.hacer_deposito(100).hacer_retiro(20).hacer_retiro(10).hacer_retiro(40).mostrar_balance()
-print(jairo)
-print(karla)
+
