@@ -15,7 +15,6 @@ class Usuario:
 
     def hacer_deposito(self, deposito, account): #toma un argumento deposito, y una account que puede ser "cuenta_corriente" o "cuenta_ahorro"
         self.cuenta[account].deposito(deposito)# se llama a los metodos de instancias de la clase CuentaBancaria
-        print("\n-----Deposito realizado con exito------\n")
         return self
         
 
@@ -24,6 +23,7 @@ class Usuario:
             self.cuenta[account].retiro(retiro) # llama a los metodos de CuentaBancaria y retira cash de la cuenta seleccionada
         else:
             print("\n-----Fondos insuficientes para realizar retiro-----\n")
+        return self
     
     
     def transferir_dinero(self, monto, usuario):
@@ -39,16 +39,16 @@ class Usuario:
     def mostrar_balance(self):
         print(f"\nMostrar_balance: {self.nombre}")
         print("------------------") 
-        for k,v in self.cuenta.items(): #itera sobre el diccionario de self.cuentas para mostrar el balance de la cuenta
-            print(f"{k}: {v}")
-        print("------------------")
+        for cuenta, balance in self.cuenta.items(): #itera sobre el diccionario de self.cuentas para mostrar las llaves "cuenta_corriente" y "cuenta_ahorro" y los balance como valores
+            print(f"{cuenta}: $ {balance}")
+        print("\n########################################")
+        return self
         
     
     def interes(self, account):
         self.cuenta[account].generar_interes()
         return self
-    
-    
+        
     @staticmethod
     def tiene_cash(balance, monto): # metodo estatico que valida si el retiro o transferencia a realizar tiene fondos suficientes
         if (balance - monto < 0):
@@ -60,4 +60,7 @@ jairo = Usuario("jairo", "jfr.elec@gmail.com")
 karla = Usuario("Karla", "karla@gmail.com")
 lucas = Usuario("Lucas", "lucas@gmail.com")
 
-
+jairo.mostrar_balance().hacer_deposito(100, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_deposito(10000, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
+karla.mostrar_balance().hacer_deposito(500, "cuenta_corriente").hacer_deposito(9000, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
+lucas.mostrar_balance().hacer_deposito(2000, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
+cb.CuentaBancaria.numeros_cuentas()
