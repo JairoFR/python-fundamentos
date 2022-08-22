@@ -1,5 +1,4 @@
 
-
 class Cafeteria:
 
     def __init__(self):
@@ -46,5 +45,3 @@ class Cafeteria:
         print("-------------------------------")
 
 
-# karla.mostrar_productos()
-# karla.vender_cafe("americano", "chico").vender_cafe("capuccino", "grande").vender_cafe("cafe irlandes", "grande").mostrar_carrito_compra()

@@ -1,11 +1,11 @@
-import cafeteria as c
+from clases import Cafeteria
 
 class Usuario:
 
     def __init__(self, nombre):
         self.nombre = nombre
         self.carrito = {
-            "carrito" : c.Cafeteria()
+            "carrito" : Cafeteria()
         }
 
     def ver_productos(self):
@@ -22,9 +22,3 @@ class Usuario:
         return self
 
 
-karla = Usuario("Karla")
-karla.ver_productos().comprar_cafe("capuccino", "grande")
-karla.comprar_cafe("capuccino", "grande")
-karla.comprar_cafe("cafe vienes", "chico")
-karla.comprar_cafe("cafe irlandes", "grande")
-karla.comprar_cafe("americano", "grande").ver_carrito()
