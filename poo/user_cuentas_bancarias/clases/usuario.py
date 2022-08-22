@@ -1,4 +1,4 @@
-import cuentas_bancarias as cb
+from clases import CuentaBancaria
 
 class Usuario:
 
@@ -6,8 +6,8 @@ class Usuario:
         self.nombre = nombre
         self.email = email
         self.cuenta = {
-                        "cuenta_corriente" : cb.CuentaBancaria(0.02, 1000),
-                        "cuenta_ahorro" : cb.CuentaBancaria(0.02, 2000) 
+                        "cuenta_corriente" : CuentaBancaria(0.02, 1000),
+                        "cuenta_ahorro" : CuentaBancaria(0.02, 2000) 
                         }
 
     def __repr__(self):
@@ -56,11 +56,3 @@ class Usuario:
         else:
             return True
 
-jairo = Usuario("jairo", "jfr.elec@gmail.com")
-karla = Usuario("Karla", "karla@gmail.com")
-lucas = Usuario("Lucas", "lucas@gmail.com")
-
-jairo.mostrar_balance().hacer_deposito(100, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_deposito(10000, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
-karla.mostrar_balance().hacer_deposito(500, "cuenta_corriente").hacer_deposito(9000, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
-lucas.mostrar_balance().hacer_deposito(2000, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_deposito(100, "cuenta_corriente").hacer_retiro(100, "cuenta_ahorro").mostrar_balance()
-cb.CuentaBancaria.numeros_cuentas()
